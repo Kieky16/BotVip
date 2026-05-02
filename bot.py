@@ -49,12 +49,13 @@ async def check_expired(context: ContextTypes.DEFAULT_TYPE):
             pass
 
 app = ApplicationBuilder().token(TOKEN).build()
+job_queue = app.job_queue
 
 app.add_handler(CommandHandler("start", start))
 app.add_handler(CommandHandler("addvip", addvip))
 app.add_handler(CommandHandler("delvip", delvip))
 app.add_handler(CommandHandler("vip", vip))
 
-app.job_queue.run_repeating(check_expired, interval=3600, first=10)
+job_queue.run_repeating(check_expired, interval=3600, first=10)
 
 app.run_polling()
